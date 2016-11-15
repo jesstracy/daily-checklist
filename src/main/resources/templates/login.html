@@ -12,10 +12,16 @@
 {{=<% %>=}}
 
     On Daily Checklist login page (งಠ_ಠ)ง
-    <br/>
-    {{test}}
+    <br/><br/><br/>
+
+    Returing user? Login below. <br/>
+    Email: <input type="text" ng-model="loginEmail"/> <br/>
+    Password: <input type="text" ng-model="loginPassword"/> <br/>
+    <button type="button" ng-click="login(loginEmail, loginPassword)">Login</button>
+
     <br/><br/>
-    Register: <br/>
+
+    New user? Register below. <br/>
     First name: <input type="text" ng-model="firstName"/> <br/>
     Last name: <input type="text" ng-model="lastName"/> <br/>
     Email: <input type="text" ng-model="registerEmail"/> <br/>
