@@ -21,6 +21,12 @@
     Email: <input type="text" ng-model="registerEmail"/> <br/>
     Password: <input type="text" ng-model="registerPassword"/> <br/>
     <button type="button" ng-click="register(firstName, lastName, registerEmail, registerPassword)">Register</button>
+    <br/><br/>
+
+    {{loginOrRegErrorMessage}}
+    <span ng-if="currentUser">
+        Welcome, {{currentUser.firstName}}!
+    </span>
 
 </body>
 </html>
