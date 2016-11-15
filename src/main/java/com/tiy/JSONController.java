@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.sql.*;
+import java.util.ArrayList;
 
 /**
  * Created by jessicatracy on 11/15/16.
@@ -95,5 +96,59 @@ public class JSONController {
         }
 
         return loginRegReturnContainer;
+    }
+
+    @RequestMapping(path = "/createNewToDo.json", method = RequestMethod.POST)
+    public ArrayList<ToDo> createNewTodo(@RequestBody ToDo toDo) {
+        System.out.println("\nIn createNewTodo method in JSON controller");
+        ArrayList<ToDo> allToDos = new ArrayList<>();
+        try {
+            //check if description is valid
+            if (toDo.getDescription() != null && !toDo.getDescription().equals("")) {
+                if (toDo.getUser() != null) {
+                    //find the user's id
+                    int userId = -1;
+                    PreparedStatement stmt = conn.prepareStatement("SELECT * FROM users WHERE email = ?");
+                    stmt.setString(1, toDo.getUser().getEmail());
+                    ResultSet resultSet = stmt.executeQuery();
+                    if (resultSet.next()) {
+                        userId = resultSet.getInt("id");
+                    }
+
+                    if (userId != -1) {
+                        //insert into database for currentUser
+                        PreparedStatement stmt2 = conn.prepareStatement("INSERT INTO todos VALUES (NULL, ?, ?, ?)");
+                        stmt2.setString(1, toDo.getDescription());
+                        stmt2.setBoolean(2, toDo.isDone());
+                        stmt2.setInt(3, userId);
+                        stmt2.execute();
+
+                        System.out.println("Adding todo with description \"" + toDo.getDescription() + "\" for " + toDo.getUser().getFirstName());
+
+                        //return a list of all todos for that user.
+                        PreparedStatement stmt3 = conn.prepareStatement("SELECT * FROM todos WHERE userId = ?");
+                        stmt3.setInt(1, userId);
+                        ResultSet resultSet2 = stmt3.executeQuery();
+                        String description;
+                        Boolean isDone;
+                        ToDo todoToAdd;
+                        while (resultSet2.next()) {
+                            description = resultSet2.getString("description");
+                            isDone = resultSet2.getBoolean("isDone");
+                            todoToAdd = new ToDo(description, isDone, toDo.getUser());
+                            allToDos.add(todoToAdd);
+                        }
+                    }
+
+                } else {
+                    System.out.println("Cannot save todo- not attached to a user");
+                }
+            } else {
+                System.out.println("Not saving todo because no description provided.");
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return allToDos;
     }
 }

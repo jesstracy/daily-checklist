@@ -32,6 +32,21 @@
     {{loginOrRegErrorMessage}}
     <span ng-if="currentUser">
         Welcome, {{currentUser.firstName}}!
+        <br/><br/>
+
+        Create a To Do item! <br/>
+        <input type="text" ng-model="toDoDescription" placeholder="Enter discription here"/>
+        <button type="button" ng-click="createNewToDo(toDoDescription)">Add item</button>
+        <br/>
+
+        <span ng-if="allToDos.length > 0">
+            My To Dos:
+            <ul>
+                <span ng-repeat="todo in allToDos">
+                    <li> {{todo.description}} </li>
+                </span>
+            </ul>
+        </span>
     </span>
 
 </body>

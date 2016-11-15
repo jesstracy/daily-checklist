@@ -51,5 +51,25 @@ angular.module('DailyChecklistApp', [])
                     });
         };
 
+        $scope.createNewToDo = function(toDoDescription) {
+            console.log("In createNewToDo function in ng controller");
+
+            var newToDo = {
+                description: toDoDescription,
+                isDone: false,
+                user: $scope.currentUser
+            }
+
+            $http.post("/createNewToDo.json", newToDo)
+                .then(
+                    function successCallback(response) {
+                        console.log(response.data);
+                        $scope.allToDos = response.data;
+                    },
+                    function errorCallback(response) {
+                        console.log("Unable to get data...");
+                    });
+        };
+
 
    });
