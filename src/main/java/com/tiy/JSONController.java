@@ -106,7 +106,7 @@ public class JSONController {
     @RequestMapping(path = "/getMyToDos.json", method = RequestMethod.POST)
     public ArrayList<ToDo> createNewTodo(@RequestBody int userId) {
         System.out.println("\nIn getMyToDos method in JSON controller");
-        ArrayList<ToDo> allToDos = new ArrayList<>();
+        ArrayList<ToDo> allToDos = null;
         try {
             allToDos = getAllToDosByUserId(userId);
 
@@ -119,7 +119,7 @@ public class JSONController {
     @RequestMapping(path = "/createNewToDo.json", method = RequestMethod.POST)
     public ArrayList<ToDo> createNewTodo(@RequestBody ToDo toDo) {
         System.out.println("\nIn createNewTodo method in JSON controller");
-        ArrayList<ToDo> allToDos = new ArrayList<>();
+        ArrayList<ToDo> allToDos = null;
         try {
             //check if description is valid
             if (toDo.getDescription() != null && !toDo.getDescription().equals("")) {
@@ -127,7 +127,7 @@ public class JSONController {
                     //insert into database for currentUser
                     PreparedStatement stmt2 = conn.prepareStatement("INSERT INTO todos VALUES (NULL, ?, ?, ?)");
                     stmt2.setString(1, toDo.getDescription());
-                    stmt2.setBoolean(2, toDo.isDone());
+                    stmt2.setBoolean(2, toDo.getIsDone());
                     stmt2.setInt(3, toDo.getUserId());
                     stmt2.execute();
 
@@ -142,6 +142,23 @@ public class JSONController {
             } else {
                 System.out.println("Not saving todo because no description provided.");
             }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return allToDos;
+    }
+
+    @RequestMapping(path = "/toggleIsDone.json", method = RequestMethod.POST)
+    public ArrayList<ToDo> toggleIsDone (@RequestBody ToDo toDo) {
+        System.out.println("\nIn toggleIsDone method in JSON controller");
+        ArrayList<ToDo> allToDos = null;
+        try {
+            PreparedStatement stmt = conn.prepareStatement("UPDATE todos SET isDone = ? WHERE id = ?");
+            stmt.setBoolean(1, !toDo.getIsDone());
+            stmt.setInt(2, toDo.getId());
+            stmt.execute();
+
+            allToDos = getAllToDosByUserId(toDo.getUserId());
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
@@ -165,13 +182,15 @@ public class JSONController {
         PreparedStatement stmt = conn.prepareStatement("SELECT * FROM todos WHERE userId = ?");
         stmt.setInt(1, userId);
         ResultSet resultSet = stmt.executeQuery();
+        int id;
         String description;
         Boolean isDone;
         ToDo todoToAdd;
         while (resultSet.next()) {
+            id = resultSet.getInt("id");
             description = resultSet.getString("description");
             isDone = resultSet.getBoolean("isDone");
-            todoToAdd = new ToDo(description, isDone, userId);
+            todoToAdd = new ToDo(id, description, isDone, userId);
             allToDos.add(todoToAdd);
         }
         return allToDos;

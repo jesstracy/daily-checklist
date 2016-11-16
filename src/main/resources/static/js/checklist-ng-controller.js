@@ -38,6 +38,20 @@ angular.module('DailyChecklistApp', [])
                     });
         };
 
+        $scope.toggleIsDone = function(toDo) {
+            console.log("In toggleIsDone function in ng controller");
+
+            $http.post("/toggleIsDone.json", toDo)
+                .then(
+                    function successCallback(response) {
+                        console.log(response.data);
+                        $scope.allToDos = response.data;
+                    },
+                    function errorCallback(response) {
+                        console.log("Unable to get data...");
+                    });
+        };
+
         var currentUserId;
 
    });

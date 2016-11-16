@@ -12,7 +12,8 @@ public class ToDo {
     public ToDo() {
     }
 
-    public ToDo(String description, boolean isDone, int userId) {
+    public ToDo(int id, String description, boolean isDone, int userId) {
+        this.id = id;
         this.description = description;
         this.isDone = isDone;
         this.userId = userId;
@@ -31,11 +32,11 @@ public class ToDo {
         this.description = description;
     }
 
-    public boolean isDone() {
+    public boolean getIsDone() {
         return isDone;
     }
 
-    public void setDone(boolean done) {
+    public void setIsDone(boolean done) {
         isDone = done;
     }
 

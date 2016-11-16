@@ -19,12 +19,10 @@ User id: <%userId%> <br/>
     <br/><br/><br/>
 
     <span ng-if="allToDos.length > 0">
-        My To Dos:
-        <ul>
-            <span ng-repeat="todo in allToDos">
-                <li> {{todo.description}} </li>
-            </span>
-        </ul>
+        My To Dos: <br/>
+        <span ng-repeat="todo in allToDos">
+            <input type="checkbox" ng-click="toggleIsDone(todo)"/> {{todo.description}} (id: {{todo.id}}, isDone: {{todo.isDone}}) <br/>
+        </span>
     </span>
 
     Create a To Do item! <br/>
