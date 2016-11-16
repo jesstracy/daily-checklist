@@ -16,7 +16,7 @@ angular.module('DailyChecklistApp', [])
                     function successCallback(response) {
                         console.log(response.data);
                         if (response.data.errorMessage == null) {
-                            // $window.location.href = '/checklist?userId=' + response.data.userId;
+                            $window.location.href = '/checklist?userId=' + response.data.userId;
                             console.log("Register came back with data");
                         } else {
                             $scope.loginOrRegErrorMessage = response.data.errorMessage;
@@ -40,7 +40,7 @@ angular.module('DailyChecklistApp', [])
                     function successCallback(response) {
                         console.log(response.data);
                         if (response.data.errorMessage == null) {
-                            // $window.location.href = '/checklist?userId=' + response.data.userId;
+                            $window.location.href = '/checklist?userId=' + response.data.userId;
                             console.log("Login came back with data");
                         } else {
                             $scope.loginOrRegErrorMessage = response.data.errorMessage;

@@ -1,50 +1,17 @@
 angular.module('DailyChecklistApp', [])
    .controller('ChecklistNGController', function($scope, $http) {
 
-        $scope.register = function(firstName, lastName, registerEmail, registerPassword) {
-            console.log("In register function in ng controller");
+        //Called on ng-init.
+        //Returns a list of all the current user's to dos and also sets currentUserId from the userId in the query string
+        $scope.getMyToDos = function(userId) {
+            console.log("In getMyToDos function in checklist controller");
+            currentUserId = userId;
 
-            var newUserInfo = {
-                firstName: firstName,
-                lastName: lastName,
-                email: registerEmail,
-                password: registerPassword
-            }
-
-            $http.post("/register.json", newUserInfo)
+            $http.post("/getMyToDos.json", userId)
                 .then(
                     function successCallback(response) {
                         console.log(response.data);
-                        if (response.data.errorMessage == null) {
-                            $scope.currentUser = response.data.user;
-                            $scope.loginOrRegErrorMessage = "";
-                        } else {
-                            $scope.loginOrRegErrorMessage = response.data.errorMessage;
-                        }
-                    },
-                    function errorCallback(response) {
-                        console.log("Unable to get data...");
-                    });
-        };
-
-        $scope.login = function(loginEmail, loginPassword) {
-            console.log("In login function in ng controller");
-
-            var returningUserInfo = {
-                email: loginEmail,
-                password: loginPassword
-            }
-
-            $http.post("/login.json", returningUserInfo)
-                .then(
-                    function successCallback(response) {
-                        console.log(response.data);
-                        if (response.data.errorMessage == null) {
-                            $scope.currentUser = response.data.user;
-                            $scope.loginOrRegErrorMessage = "";
-                        } else {
-                            $scope.loginOrRegErrorMessage = response.data.errorMessage;
-                        }
+                        $scope.allToDos = response.data;
                     },
                     function errorCallback(response) {
                         console.log("Unable to get data...");
@@ -57,7 +24,7 @@ angular.module('DailyChecklistApp', [])
             var newToDo = {
                 description: toDoDescription,
                 isDone: false,
-                user: $scope.currentUser
+                userId: currentUserId
             }
 
             $http.post("/createNewToDo.json", newToDo)
@@ -71,5 +38,6 @@ angular.module('DailyChecklistApp', [])
                     });
         };
 
+        var currentUserId;
 
    });

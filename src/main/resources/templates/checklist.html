@@ -11,16 +11,12 @@
 {{! the default angularjs delimeters - https://mustache.github.io/mustache.5.html for more info }}
 {{=<% %>=}}
 
+User id: <%userId%> <br/>
+
+<span ng-init="getMyToDos(<%userId%>)">
+
     On Daily Checklist checklist page (งಠ_ಠ)ง
     <br/><br/><br/>
-
-    Welcome, {{currentUser.firstName}}!
-    <br/><br/>
-
-    Create a To Do item! <br/>
-    <input type="text" ng-model="toDoDescription" placeholder="Enter discription here"/>
-    <button type="button" ng-click="createNewToDo(toDoDescription)">Add item</button>
-    <br/>
 
     <span ng-if="allToDos.length > 0">
         My To Dos:
@@ -31,6 +27,11 @@
         </ul>
     </span>
 
+    Create a To Do item! <br/>
+    <input type="text" ng-model="toDoDescription" placeholder="Enter discription here"/>
+    <button type="button" ng-click="createNewToDo(toDoDescription)">Add item</button>
+    <br/>
 
+</span>
 </body>
 </html>

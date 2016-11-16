@@ -7,15 +7,15 @@ public class ToDo {
     private int id;
     private String description;
     private boolean isDone;
-    private User user;
+    private int userId;
 
     public ToDo() {
     }
 
-    public ToDo(String description, boolean isDone, User user) {
+    public ToDo(String description, boolean isDone, int userId) {
         this.description = description;
         this.isDone = isDone;
-        this.user = user;
+        this.userId = userId;
     }
 
     //Getters and setters
@@ -39,11 +39,11 @@ public class ToDo {
         isDone = done;
     }
 
-    public User getUser() {
-        return user;
+    public int getUserId() {
+        return userId;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setUserId(int userId) {
+        this.userId = userId;
     }
 }
