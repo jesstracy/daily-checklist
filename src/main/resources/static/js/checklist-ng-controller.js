@@ -1,5 +1,5 @@
 angular.module('DailyChecklistApp', [])
-   .controller('NGController', function($scope, $http, $window) {
+   .controller('ChecklistNGController', function($scope, $http) {
 
         $scope.register = function(firstName, lastName, registerEmail, registerPassword) {
             console.log("In register function in ng controller");
@@ -16,8 +16,8 @@ angular.module('DailyChecklistApp', [])
                     function successCallback(response) {
                         console.log(response.data);
                         if (response.data.errorMessage == null) {
-                            // $window.location.href = '/checklist?userId=' + response.data.userId;
-                            console.log("Register came back with data");
+                            $scope.currentUser = response.data.user;
+                            $scope.loginOrRegErrorMessage = "";
                         } else {
                             $scope.loginOrRegErrorMessage = response.data.errorMessage;
                         }
@@ -40,11 +40,31 @@ angular.module('DailyChecklistApp', [])
                     function successCallback(response) {
                         console.log(response.data);
                         if (response.data.errorMessage == null) {
-                            // $window.location.href = '/checklist?userId=' + response.data.userId;
-                            console.log("Login came back with data");
+                            $scope.currentUser = response.data.user;
+                            $scope.loginOrRegErrorMessage = "";
                         } else {
                             $scope.loginOrRegErrorMessage = response.data.errorMessage;
                         }
+                    },
+                    function errorCallback(response) {
+                        console.log("Unable to get data...");
+                    });
+        };
+
+        $scope.createNewToDo = function(toDoDescription) {
+            console.log("In createNewToDo function in ng controller");
+
+            var newToDo = {
+                description: toDoDescription,
+                isDone: false,
+                user: $scope.currentUser
+            }
+
+            $http.post("/createNewToDo.json", newToDo)
+                .then(
+                    function successCallback(response) {
+                        console.log(response.data);
+                        $scope.allToDos = response.data;
                     },
                     function errorCallback(response) {
                         console.log("Unable to get data...");

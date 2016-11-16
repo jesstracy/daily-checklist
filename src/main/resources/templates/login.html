@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html lang="en" ng-app="DailyChecklistApp">
+
 <head>
     <meta charset="UTF-8">
     <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
     <script src="js/ng-controller.js"></script>
     <title>Daily Checklist</title>
 </head>
+
 <body ng-controller="NGController">
 {{! changing the mustache delimiter so it doesn't conflict with }}
 {{! the default angularjs delimeters - https://mustache.github.io/mustache.5.html for more info }}
@@ -30,24 +32,6 @@
     <br/><br/>
 
     {{loginOrRegErrorMessage}}
-    <span ng-if="currentUser">
-        Welcome, {{currentUser.firstName}}!
-        <br/><br/>
-
-        Create a To Do item! <br/>
-        <input type="text" ng-model="toDoDescription" placeholder="Enter discription here"/>
-        <button type="button" ng-click="createNewToDo(toDoDescription)">Add item</button>
-        <br/>
-
-        <span ng-if="allToDos.length > 0">
-            My To Dos:
-            <ul>
-                <span ng-repeat="todo in allToDos">
-                    <li> {{todo.description}} </li>
-                </span>
-            </ul>
-        </span>
-    </span>
 
 </body>
 </html>

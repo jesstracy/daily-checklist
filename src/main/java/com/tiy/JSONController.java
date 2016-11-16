@@ -40,14 +40,17 @@ public class JSONController {
 
                 System.out.println("New User inserted into db with email " + newUser.getEmail());
 
+                //get the id of the new user
+                int userId = getUserId(newUser);
+
                 //prepare the container to return with user and null error message
-                loginRegReturnContainer = new LoginRegReturnContainer(newUser, null);
+                loginRegReturnContainer = new LoginRegReturnContainer(userId, null);
             } else {
                 //resultSet has data
                 String message = "Cannot create new user. Already a user with email " + newUser.getEmail();
                 System.out.println(message);
-                //prepare the container to return with null user and error message
-                loginRegReturnContainer = new LoginRegReturnContainer(null, message);
+                //prepare the container to return with userId -1 and error message
+                loginRegReturnContainer = new LoginRegReturnContainer(-1, message);
             }
 
         } catch (SQLException ex) {
@@ -72,24 +75,26 @@ public class JSONController {
                 //email is attached to a user in our db
                 //check to see if password matches
                 if (user.getPassword().equals(resultSet.getString("password"))) {
-                    //passwords match. Retrieve all fields for user object
-                    User retrievedUser = new User(resultSet.getString("firstName"), resultSet.getString("lastName"), user.getEmail(), user.getPassword());
+                    //passwords match. Retrieve the id of the record to return.
+                    int userId = resultSet.getInt("id");
+
                     //prepare return container with retrieved user and null error message
+                    loginRegReturnContainer = new LoginRegReturnContainer(userId, null);
+
                     System.out.println("User logged in with email " + user.getEmail());
-                    loginRegReturnContainer = new LoginRegReturnContainer(retrievedUser, null);
                 } else {
                     //passwords don't match
                     String message = "Incorrect password for user with email " + user.getEmail();
                     System.out.println(message);
-                    //prepare a return container with null user and error message
-                    loginRegReturnContainer = new LoginRegReturnContainer(null, message);
+                    //prepare the container to return with userId -1 and error message
+                    loginRegReturnContainer = new LoginRegReturnContainer(-1, message);
                 }
             } else {
                 //no users with that email in our db
                 String message = "No users with email " + user.getEmail() + " in our database";
                 System.out.println(message);
-                //prepare a return container with null user and error message
-                loginRegReturnContainer = new LoginRegReturnContainer(null, message);
+                //prepare the container to return with userId -1 and error message
+                loginRegReturnContainer = new LoginRegReturnContainer(-1, message);
             }
         } catch (SQLException ex) {
             System.out.println("Exception caught in login endpoint");
@@ -107,13 +112,7 @@ public class JSONController {
             if (toDo.getDescription() != null && !toDo.getDescription().equals("")) {
                 if (toDo.getUser() != null) {
                     //find the user's id
-                    int userId = -1;
-                    PreparedStatement stmt = conn.prepareStatement("SELECT * FROM users WHERE email = ?");
-                    stmt.setString(1, toDo.getUser().getEmail());
-                    ResultSet resultSet = stmt.executeQuery();
-                    if (resultSet.next()) {
-                        userId = resultSet.getInt("id");
-                    }
+                    int userId = getUserId(toDo.getUser());
 
                     if (userId != -1) {
                         //insert into database for currentUser
@@ -150,5 +149,17 @@ public class JSONController {
             ex.printStackTrace();
         }
         return allToDos;
+    }
+
+    //Retrieves the user's id from the db. Returns -1 if the user is not in the db.
+    public int getUserId(User user) throws SQLException{
+        int userId = -1;
+        PreparedStatement stmt = conn.prepareStatement("SELECT * FROM users WHERE email = ?");
+        stmt.setString(1, user.getEmail());
+        ResultSet resultSet = stmt.executeQuery();
+        if (resultSet.next()) {
+            userId = resultSet.getInt("id");
+        }
+        return userId;
     }
 }
