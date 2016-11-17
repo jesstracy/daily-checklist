@@ -21,10 +21,16 @@ User id: <%userId%> <br/>
     <span ng-if="allToDos.length > 0">
         My To Dos: <br/>
         <span ng-repeat="todo in allToDos">
-            <input type="checkbox" ng-click="toggleIsDone(todo)"/> {{todo.description}} (id: {{todo.id}}, isDone: {{todo.isDone}}) <br/>
+            <span ng-if="todo.isDone">
+                <input type="checkbox" ng-click="toggleIsDone(todo)" checked/> {{todo.description}} (id: {{todo.id}}, isDone: {{todo.isDone}}) <br/>
+            </span>
+            <span ng-if="todo.isDone == false">
+                <input type="checkbox" ng-click="toggleIsDone(todo)"/> {{todo.description}} (id: {{todo.id}}, isDone: {{todo.isDone}}) <br/>
+            </span>
         </span>
     </span>
 
+    <br/>
     Create a To Do item! <br/>
     <input type="text" ng-model="toDoDescription" placeholder="Enter discription here"/>
     <button type="button" ng-click="createNewToDo(toDoDescription)">Add item</button>
