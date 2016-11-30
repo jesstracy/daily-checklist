@@ -22,10 +22,10 @@ User id: <%userId%> <br/>
         My To Dos (NOW): <br/>
         <span ng-repeat="todo in allToDos">
             <span ng-if="todo.isDone && todo.status === 'NOW'">
-                <input type="checkbox" ng-click="toggleIsDone(todo)" checked/> {{todo.description}} (id: {{todo.id}}, isDone: {{todo.isDone}}, status: {{todo.status}}) <br/>
+                <input type="checkbox" ng-click="toggleIsDone(todo)" checked/> {{todo.description}} (id: {{todo.id}}, isDone: {{todo.isDone}}, status: {{todo.status}}) <input type="button" ng-click="deleteToDo(todo)" value="delete"/> <br/>
             </span>
             <span ng-if="todo.isDone == false && todo.status === 'NOW'">
-                <input type="checkbox" ng-click="toggleIsDone(todo)"/> {{todo.description}} (id: {{todo.id}}, isDone: {{todo.isDone}}, status: {{todo.status}}) <br/>
+                <input type="checkbox" ng-click="toggleIsDone(todo)"/> {{todo.description}} (id: {{todo.id}}, isDone: {{todo.isDone}}, status: {{todo.status}}) <input type="button" ng-click="deleteToDo(todo)" value="delete"/> <br/>
             </span>
         </span>
     </span>
@@ -36,10 +36,10 @@ User id: <%userId%> <br/>
         My To Dos (LATER): <br/>
         <span ng-repeat="todo in allToDos">
             <span ng-if="todo.isDone && todo.status === 'LATER'">
-                <input type="checkbox" ng-click="toggleIsDone(todo)" checked/> {{todo.description}} (id: {{todo.id}}, isDone: {{todo.isDone}}, status: {{todo.status}}) <br/>
+                <input type="checkbox" ng-click="toggleIsDone(todo)" checked/> {{todo.description}} (id: {{todo.id}}, isDone: {{todo.isDone}}, status: {{todo.status}}) <input type="button" ng-click="deleteToDo(todo)" value="delete"/> <br/>
             </span>
             <span ng-if="todo.isDone == false && todo.status === 'LATER'">
-                <input type="checkbox" ng-click="toggleIsDone(todo)"/> {{todo.description}} (id: {{todo.id}}, isDone: {{todo.isDone}}, status: {{todo.status}}) <br/>
+                <input type="checkbox" ng-click="toggleIsDone(todo)"/> {{todo.description}} (id: {{todo.id}}, isDone: {{todo.isDone}}, status: {{todo.status}}) <input type="button" ng-click="deleteToDo(todo)" value="delete"/> <br/>
             </span>
         </span>
     </span>

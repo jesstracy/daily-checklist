@@ -19,7 +19,7 @@ angular.module('DailyChecklistApp', [])
         };
 
         $scope.createNewToDo = function(toDoDescription, statusString) {
-            console.log("In createNewToDo function in ng controller");
+            console.log("In createNewToDo function in checklist controller");
 
             var newToDo = {
                 description: toDoDescription,
@@ -40,9 +40,23 @@ angular.module('DailyChecklistApp', [])
         };
 
         $scope.toggleIsDone = function(toDo) {
-            console.log("In toggleIsDone function in ng controller");
+            console.log("In toggleIsDone function in checklist controller");
 
             $http.post("/toggleIsDone.json", toDo)
+                .then(
+                    function successCallback(response) {
+                        console.log(response.data);
+                        $scope.allToDos = response.data;
+                    },
+                    function errorCallback(response) {
+                        console.log("Unable to get data...");
+                    });
+        };
+
+        $scope.deleteToDo = function(toDo) {
+            console.log("In deleteToDo function in checklist controller");
+
+            $http.post("/deleteToDo.json", toDo)
                 .then(
                     function successCallback(response) {
                         console.log(response.data);

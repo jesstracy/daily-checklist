@@ -162,13 +162,29 @@ public class JSONController {
     }
 
     @RequestMapping(path = "/toggleIsDone.json", method = RequestMethod.POST)
-    public ArrayList<ToDo> toggleIsDone (@RequestBody ToDo toDo) {
+    public ArrayList<ToDo> toggleIsDone(@RequestBody ToDo toDo) {
         System.out.println("\nIn toggleIsDone method in JSON controller");
         ArrayList<ToDo> allToDos = null;
         try {
             PreparedStatement stmt = conn.prepareStatement("UPDATE todos SET isDone = ? WHERE id = ?");
             stmt.setBoolean(1, !toDo.getIsDone());
             stmt.setInt(2, toDo.getId());
+            stmt.execute();
+
+            allToDos = getAllToDosByUserId(toDo.getUserId(), "all");
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return allToDos;
+    }
+
+    @RequestMapping(path = "/deleteToDo.json", method = RequestMethod.POST)
+    public ArrayList<ToDo> deleteToDo(@RequestBody ToDo toDo) {
+        System.out.println("\nIn deleteToDo method in JSON controller");
+        ArrayList<ToDo> allToDos = null;
+        try {
+            PreparedStatement stmt = conn.prepareStatement("DELETE FROM todos WHERE id = ?");
+            stmt.setInt(1, toDo.getId());
             stmt.execute();
 
             allToDos = getAllToDosByUserId(toDo.getUserId(), "all");
