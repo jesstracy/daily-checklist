@@ -19,13 +19,27 @@ User id: <%userId%> <br/>
     <br/><br/><br/>
 
     <span ng-if="allToDos.length > 0">
-        My To Dos: <br/>
+        My To Dos (NOW): <br/>
         <span ng-repeat="todo in allToDos">
-            <span ng-if="todo.isDone">
-                <input type="checkbox" ng-click="toggleIsDone(todo)" checked/> {{todo.description}} (id: {{todo.id}}, isDone: {{todo.isDone}}) <br/>
+            <span ng-if="todo.isDone && todo.status === 'NOW'">
+                <input type="checkbox" ng-click="toggleIsDone(todo)" checked/> {{todo.description}} (id: {{todo.id}}, isDone: {{todo.isDone}}, status: {{todo.status}}) <br/>
             </span>
-            <span ng-if="todo.isDone == false">
-                <input type="checkbox" ng-click="toggleIsDone(todo)"/> {{todo.description}} (id: {{todo.id}}, isDone: {{todo.isDone}}) <br/>
+            <span ng-if="todo.isDone == false && todo.status === 'NOW'">
+                <input type="checkbox" ng-click="toggleIsDone(todo)"/> {{todo.description}} (id: {{todo.id}}, isDone: {{todo.isDone}}, status: {{todo.status}}) <br/>
+            </span>
+        </span>
+    </span>
+
+    <br/><br/>
+
+    <span ng-if="allToDos.length > 0">
+        My To Dos (LATER): <br/>
+        <span ng-repeat="todo in allToDos">
+            <span ng-if="todo.isDone && todo.status === 'LATER'">
+                <input type="checkbox" ng-click="toggleIsDone(todo)" checked/> {{todo.description}} (id: {{todo.id}}, isDone: {{todo.isDone}}, status: {{todo.status}}) <br/>
+            </span>
+            <span ng-if="todo.isDone == false && todo.status === 'LATER'">
+                <input type="checkbox" ng-click="toggleIsDone(todo)"/> {{todo.description}} (id: {{todo.id}}, isDone: {{todo.isDone}}, status: {{todo.status}}) <br/>
             </span>
         </span>
     </span>

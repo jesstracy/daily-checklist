@@ -203,7 +203,7 @@ public class JSONController {
             id = resultSet.getInt("id");
             description = resultSet.getString("description");
             isDone = resultSet.getBoolean("isDone");
-            if (resultSet.getString("status").equals("now")) {
+            if (resultSet.getString("status").equals("NOW")) {
                 status = ToDoStatus.NOW;
             } else {
                 status = ToDoStatus.LATER;
