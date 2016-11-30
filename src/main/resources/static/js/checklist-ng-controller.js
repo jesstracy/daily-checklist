@@ -18,12 +18,13 @@ angular.module('DailyChecklistApp', [])
                     });
         };
 
-        $scope.createNewToDo = function(toDoDescription) {
+        $scope.createNewToDo = function(toDoDescription, statusString) {
             console.log("In createNewToDo function in ng controller");
 
             var newToDo = {
                 description: toDoDescription,
                 isDone: false,
+                statusString: statusString,
                 userId: currentUserId
             }
 

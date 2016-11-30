@@ -1,5 +1,7 @@
 package com.tiy;
 
+import java.time.LocalDateTime;
+
 /**
  * Created by jessicatracy on 11/15/16.
  */
@@ -8,15 +10,18 @@ public class ToDo {
     private String description;
     private boolean isDone;
     private int userId;
+    private String statusString;
+    private ToDoStatus status;
 
     public ToDo() {
     }
 
-    public ToDo(int id, String description, boolean isDone, int userId) {
+    public ToDo(int id, String description, boolean isDone, int userId, ToDoStatus toDoStatus) {
         this.id = id;
         this.description = description;
         this.isDone = isDone;
         this.userId = userId;
+        this.status = toDoStatus;
     }
 
     //Getters and setters
@@ -46,5 +51,21 @@ public class ToDo {
 
     public void setUserId(int userId) {
         this.userId = userId;
+    }
+
+    public String getStatusString() {
+        return statusString;
+    }
+
+    public void setStatusString(String statusString) {
+        this.statusString = statusString;
+    }
+
+    public ToDoStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(ToDoStatus status) {
+        this.status = status;
     }
 }

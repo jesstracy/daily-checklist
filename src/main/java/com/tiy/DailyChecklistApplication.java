@@ -20,7 +20,7 @@ public class DailyChecklistApplication {
 			Connection conn = DriverManager.getConnection("jdbc:h2:./main");
 			Statement stmt = conn.createStatement();
 			stmt.execute("CREATE TABLE IF NOT EXISTS users (id IDENTITY, firstName VARCHAR, lastName VARCHAR, email VARCHAR, password VARCHAR)");
-			stmt.execute("CREATE TABLE IF NOT EXISTS todos (id IDENTITY, description VARCHAR, isDone BOOLEAN, userId INT)");
+			stmt.execute("CREATE TABLE IF NOT EXISTS todos (id IDENTITY, description VARCHAR, isDone BOOLEAN, status VARCHAR, userId INT)");
 		} catch (SQLException ex) {
 			ex.printStackTrace();
 		}

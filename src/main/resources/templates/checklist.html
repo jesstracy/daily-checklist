@@ -32,8 +32,9 @@ User id: <%userId%> <br/>
 
     <br/>
     Create a To Do item! <br/>
-    <input type="text" ng-model="toDoDescription" placeholder="Enter discription here"/>
-    <button type="button" ng-click="createNewToDo(toDoDescription)">Add item</button>
+    <input type="text" ng-model="toDoDescription" placeholder="Enter discription here"/> <br/>
+    <input type="text" ng-model="toDoStatusString" placeholder="Now or later?"/> <br/>
+    <button type="button" ng-click="createNewToDo(toDoDescription, toDoStatusString)">Add item</button>
     <br/>
 
 </span>

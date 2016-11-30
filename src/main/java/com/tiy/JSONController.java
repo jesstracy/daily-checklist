@@ -108,7 +108,7 @@ public class JSONController {
         System.out.println("\nIn getMyToDos method in JSON controller");
         ArrayList<ToDo> allToDos = null;
         try {
-            allToDos = getAllToDosByUserId(userId);
+            allToDos = getAllToDosByUserId(userId, "all");
 
         } catch (SQLException ex) {
             ex.printStackTrace();
@@ -125,16 +125,17 @@ public class JSONController {
             if (toDo.getDescription() != null && !toDo.getDescription().equals("")) {
                 if (toDo.getUserId() != -1) {
                     //insert into database for currentUser
-                    PreparedStatement stmt2 = conn.prepareStatement("INSERT INTO todos VALUES (NULL, ?, ?, ?)");
+                    PreparedStatement stmt2 = conn.prepareStatement("INSERT INTO todos VALUES (NULL, ?, ?, ?, ?)");
                     stmt2.setString(1, toDo.getDescription());
                     stmt2.setBoolean(2, toDo.getIsDone());
-                    stmt2.setInt(3, toDo.getUserId());
+                    stmt2.setString(3, toDo.getStatusString());
+                    stmt2.setInt(4, toDo.getUserId());
                     stmt2.execute();
 
                     System.out.println("Adding todo with description \"" + toDo.getDescription() + "\" for user with id " + toDo.getUserId());
 
                     //return a list of all todos for that user.
-                    allToDos = getAllToDosByUserId(toDo.getUserId());
+                    allToDos = getAllToDosByUserId(toDo.getUserId(), "all");
 
                 } else {
                     System.out.println("Cannot save todo- not attached to a userId");
@@ -158,7 +159,7 @@ public class JSONController {
             stmt.setInt(2, toDo.getId());
             stmt.execute();
 
-            allToDos = getAllToDosByUserId(toDo.getUserId());
+            allToDos = getAllToDosByUserId(toDo.getUserId(), "all");
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
@@ -177,22 +178,40 @@ public class JSONController {
         return userId;
     }
 
-    public ArrayList<ToDo> getAllToDosByUserId(int userId) throws SQLException {
+    //Choose status when calling: now, later, or all.
+    public ArrayList<ToDo> getAllToDosByUserId(int userId, String statusString) throws SQLException {
         ArrayList<ToDo> allToDos = new ArrayList<>();
-        PreparedStatement stmt = conn.prepareStatement("SELECT * FROM todos WHERE userId = ?");
-        stmt.setInt(1, userId);
+        PreparedStatement stmt;
+        if (statusString.equals("all")) {
+            stmt = conn.prepareStatement("SELECT * FROM todos WHERE userId = ?");
+            stmt.setInt(1, userId);
+        } else {
+            if (!(statusString.equals("now") || statusString.equals("later"))) {
+                System.out.println("Warning! Invalid statusString: " + statusString);
+            }
+            stmt = conn.prepareStatement("SELECT * FROM todos WHERE userId = ? AND status = ?");
+            stmt.setInt(1, userId);
+            stmt.setString(2, statusString);
+        }
         ResultSet resultSet = stmt.executeQuery();
         int id;
         String description;
         Boolean isDone;
         ToDo todoToAdd;
+        ToDoStatus status;
         while (resultSet.next()) {
             id = resultSet.getInt("id");
             description = resultSet.getString("description");
             isDone = resultSet.getBoolean("isDone");
-            todoToAdd = new ToDo(id, description, isDone, userId);
+            if (resultSet.getString("status").equals("now")) {
+                status = ToDoStatus.NOW;
+            } else {
+                status = ToDoStatus.LATER;
+            }
+            todoToAdd = new ToDo(id, description, isDone, userId, status);
             allToDos.add(todoToAdd);
         }
         return allToDos;
     }
+
 }
