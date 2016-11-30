@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.io.IOException;
 import java.sql.*;
 import java.util.ArrayList;
 
@@ -15,6 +16,7 @@ import java.util.ArrayList;
 public class JSONController {
     //conn is initialized in either register or login
     Connection conn;
+    private boolean connMade = false;
 
     @RequestMapping(path = "/register.json", method = RequestMethod.POST)
     public LoginRegReturnContainer register(@RequestBody User newUser) {
@@ -22,6 +24,7 @@ public class JSONController {
         LoginRegReturnContainer loginRegReturnContainer = null;
         try {
             conn = DriverManager.getConnection("jdbc:h2:./main");
+            connMade = true;
 
             //check to see if there is already a user with that email in our db
             PreparedStatement stmt = conn.prepareStatement("SELECT * FROM users WHERE email = ?");
@@ -67,6 +70,7 @@ public class JSONController {
         LoginRegReturnContainer loginRegReturnContainer = null;
         try {
             conn = DriverManager.getConnection("jdbc:h2:./main");
+            connMade = true;
             //check if the user is in the database (by email)
             PreparedStatement stmt = conn.prepareStatement("SELECT * FROM users WHERE email = ?");
             stmt.setString(1, user.getEmail());
@@ -105,6 +109,14 @@ public class JSONController {
 
     @RequestMapping(path = "/getMyToDos.json", method = RequestMethod.POST)
     public ArrayList<ToDo> createNewTodo(@RequestBody int userId) {
+        try {
+            if (!connMade) {
+                conn = DriverManager.getConnection("jdbc:h2:./main");
+                connMade = true;
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
         System.out.println("\nIn getMyToDos method in JSON controller");
         ArrayList<ToDo> allToDos = null;
         try {
