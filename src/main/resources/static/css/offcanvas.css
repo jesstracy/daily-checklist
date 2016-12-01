@@ -9,3 +9,18 @@ body {
     padding: 10px 10px 10px 30px;
 }
 
+.input-field {
+    text-align: center;
+    padding: 30px;
+    padding-left: 100px;
+    padding-right: 100px;
+    display: inline-block;
+}
+
+.center-plain {
+    text-align: center;
+}
+
+.inline-block {
+    display: inline-block;
+}
