@@ -2,6 +2,8 @@
 <html lang="en" ng-app="DailyChecklistApp">
 <head>
     <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="css/offcanvas.css">
     <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
     <script src="js/checklist-ng-controller.js"></script>
     <title>Daily Checklist</title>
@@ -12,44 +14,48 @@
 {{=<% %>=}}
 
 User id: <%userId%> <br/>
+On Daily Checklist checklist page (งಠ_ಠ)ง
+<br/><br/>
 
 <span ng-init="getMyToDos(<%userId%>)">
+    <div class="nice">
+        <div class="row">
+            <div ng-if="allToDos.length > 0">
+                <div class="col-lg-6">
+                    My To Dos (NOW): <br/>
+                    <span ng-repeat="todo in allToDos">
+                        <span ng-if="todo.isDone && todo.status === 'NOW'">
+                            <input type="checkbox" ng-click="toggleIsDone(todo)" checked/> {{todo.description}} (id: {{todo.id}}, isDone: {{todo.isDone}}, status: {{todo.status}}) <input type="button" ng-click="deleteToDo(todo)" value="delete"/> <br/>
+                        </span>
+                        <span ng-if="todo.isDone == false && todo.status === 'NOW'">
+                            <input type="checkbox" ng-click="toggleIsDone(todo)"/> {{todo.description}} (id: {{todo.id}}, isDone: {{todo.isDone}}, status: {{todo.status}}) <input type="button" ng-click="deleteToDo(todo)" value="delete"/> <br/>
+                        </span>
+                    </span>
+                </div>
 
-    On Daily Checklist checklist page (งಠ_ಠ)ง
-    <br/><br/><br/>
+                <div class="col-lg-6">
+                    My To Dos (LATER): <br/>
+                    <span ng-repeat="todo in allToDos">
+                        <span ng-if="todo.isDone && todo.status === 'LATER'">
+                            <input type="checkbox" ng-click="toggleIsDone(todo)" checked/> {{todo.description}} (id: {{todo.id}}, isDone: {{todo.isDone}}, status: {{todo.status}}) <input type="button" ng-click="deleteToDo(todo)" value="delete"/> <br/>
+                        </span>
+                        <span ng-if="todo.isDone == false && todo.status === 'LATER'">
+                            <input type="checkbox" ng-click="toggleIsDone(todo)"/> {{todo.description}} (id: {{todo.id}}, isDone: {{todo.isDone}}, status: {{todo.status}}) <input type="button" ng-click="deleteToDo(todo)" value="delete"/> <br/>
+                        </span>
+                    </span>
+                </div>
+            </div>
+        </div>
 
-    <span ng-if="allToDos.length > 0">
-        My To Dos (NOW): <br/>
-        <span ng-repeat="todo in allToDos">
-            <span ng-if="todo.isDone && todo.status === 'NOW'">
-                <input type="checkbox" ng-click="toggleIsDone(todo)" checked/> {{todo.description}} (id: {{todo.id}}, isDone: {{todo.isDone}}, status: {{todo.status}}) <input type="button" ng-click="deleteToDo(todo)" value="delete"/> <br/>
-            </span>
-            <span ng-if="todo.isDone == false && todo.status === 'NOW'">
-                <input type="checkbox" ng-click="toggleIsDone(todo)"/> {{todo.description}} (id: {{todo.id}}, isDone: {{todo.isDone}}, status: {{todo.status}}) <input type="button" ng-click="deleteToDo(todo)" value="delete"/> <br/>
-            </span>
-        </span>
-    </span>
+        <br/>
+        Create a To Do item! <br/>
+        <input type="text" ng-model="toDoDescription" placeholder="Enter discription here"/> <br/>
+        <input type="text" ng-model="toDoStatusString" placeholder="Now or later?"/> <br/>
+        <button type="button" ng-click="createNewToDo(toDoDescription, toDoStatusString)">Add item</button>
+        <br/>
 
-    <br/><br/>
 
-    <span ng-if="allToDos.length > 0">
-        My To Dos (LATER): <br/>
-        <span ng-repeat="todo in allToDos">
-            <span ng-if="todo.isDone && todo.status === 'LATER'">
-                <input type="checkbox" ng-click="toggleIsDone(todo)" checked/> {{todo.description}} (id: {{todo.id}}, isDone: {{todo.isDone}}, status: {{todo.status}}) <input type="button" ng-click="deleteToDo(todo)" value="delete"/> <br/>
-            </span>
-            <span ng-if="todo.isDone == false && todo.status === 'LATER'">
-                <input type="checkbox" ng-click="toggleIsDone(todo)"/> {{todo.description}} (id: {{todo.id}}, isDone: {{todo.isDone}}, status: {{todo.status}}) <input type="button" ng-click="deleteToDo(todo)" value="delete"/> <br/>
-            </span>
-        </span>
-    </span>
-
-    <br/>
-    Create a To Do item! <br/>
-    <input type="text" ng-model="toDoDescription" placeholder="Enter discription here"/> <br/>
-    <input type="text" ng-model="toDoStatusString" placeholder="Now or later?"/> <br/>
-    <button type="button" ng-click="createNewToDo(toDoDescription, toDoStatusString)">Add item</button>
-    <br/>
+    </div>
 
 </span>
 </body>
