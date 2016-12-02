@@ -7,6 +7,7 @@
     <link rel="stylesheet" type="text/css" href="../static/css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="css/offcanvas.css">
     <link rel="stylesheet" type="text/css" href="../static/css/offcanvas.css">
+    <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Lobster+Two" />
     <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
     <script src="js/ng-controller.js"></script>
     <title>Daily Checklist</title>
@@ -17,22 +18,24 @@
 {{! the default angularjs delimeters - https://mustache.github.io/mustache.5.html for more info }}
 {{=<% %>=}}
 
-    On Daily Checklist login page (งಠ_ಠ)ง
+    <div class="title">
+        Daily Checklist
+    </div>
     <br/><br/><br/>
 
-    <div class="nice center-plain">
+    <div class="nice center-plain gray">
         <div class="row inline-block">
             <div class="col-lg-6 input-field">
-                Returing user? Login below. <br/>
+                <h4>Login</h4>
                 <div>
                     Email: <br/> <input type="text" ng-model="loginEmail"/> <br/>
-                    Password: <br/> <input type="text" ng-model="loginPassword"/> <br/>
+                    Password: <br/> <input type="password" ng-model="loginPassword"/> <br/>
                 </div>
                 <button type="button" ng-click="login(loginEmail, loginPassword)">Login</button>
             </div>
 
             <div class="col-lg-6 input-field">
-                New user? Register below. <br/>
+                <h4>Register</h4>
                 <div>
                     First name: <br/> <input type="text" ng-model="firstName"/> <br/>
                     Last name: <br/> <input type="text" ng-model="lastName"/> <br/>
@@ -43,7 +46,7 @@
             </div>
         </div>
 
-        <div>
+        <div class="error">
             {{loginOrRegErrorMessage}}
         </div>
 

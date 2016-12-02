@@ -1,12 +1,44 @@
 html,
 body {
   overflow-x: hidden; /* Prevent scroll on narrow devices */
-  border: 1px solid black;
+  background-color: #e8eff9;
+}
+
+.title {
+    text-align: center;
+    margin-top: 50px;
+    font-family: "Lobster Two";
+    font-size: 36px;
+    font-style: normal;
+    font-variant: normal;
+    font-weight: 500;
+    line-height: 15.4px;
+}
+
+h4 {
+    font-family: "Lobster Two";
+    color: white;
+    font-style: normal;
+    font-variant: normal;
+    font-weight: 500;
+    line-height: 15.4px;
 }
 
 .nice {
     margin: auto;
     padding: 10px 10px 10px 30px;
+}
+
+.gray {
+    background-color: gray;
+    position: absolute;
+    top: 20%;
+    bottom: 25%;
+    left: 0;
+    right: 0;
+    margin: auto;
+    border-top: 4px solid #4c4c4c;
+    border-bottom: 4px solid #4c4c4c;
 }
 
 .input-field {
@@ -23,4 +55,16 @@ body {
 
 .inline-block {
     display: inline-block;
+}
+
+input {
+    border-color: #76a4ed;
+}
+
+button {
+    margin-top: 10px;
+}
+
+.error {
+    color: white;
 }
