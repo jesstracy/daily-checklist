@@ -120,7 +120,7 @@ public class JSONController {
         System.out.println("\nIn getMyToDos method in JSON controller");
         ArrayList<ToDo> allToDos = null;
         try {
-            allToDos = getAllToDosByUserId(userId, "all");
+            allToDos = getAllToDosByUserId(userId, "ALL");
 
         } catch (SQLException ex) {
             ex.printStackTrace();
@@ -147,7 +147,7 @@ public class JSONController {
                     System.out.println("Adding todo with description \"" + toDo.getDescription() + "\" for user with id " + toDo.getUserId());
 
                     //return a list of all todos for that user.
-                    allToDos = getAllToDosByUserId(toDo.getUserId(), "all");
+                    allToDos = getAllToDosByUserId(toDo.getUserId(), "ALL");
 
                 } else {
                     System.out.println("Cannot save todo- not attached to a userId");
@@ -171,7 +171,7 @@ public class JSONController {
             stmt.setInt(2, toDo.getId());
             stmt.execute();
 
-            allToDos = getAllToDosByUserId(toDo.getUserId(), "all");
+            allToDos = getAllToDosByUserId(toDo.getUserId(), "ALL");
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
@@ -187,7 +187,7 @@ public class JSONController {
             stmt.setInt(1, toDo.getId());
             stmt.execute();
 
-            allToDos = getAllToDosByUserId(toDo.getUserId(), "all");
+            allToDos = getAllToDosByUserId(toDo.getUserId(), "ALL");
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
@@ -206,15 +206,15 @@ public class JSONController {
         return userId;
     }
 
-    //Choose status when calling: now, later, or all.
+    //Choose status when calling: NOW, LATER, or ALL.
     public ArrayList<ToDo> getAllToDosByUserId(int userId, String statusString) throws SQLException {
         ArrayList<ToDo> allToDos = new ArrayList<>();
         PreparedStatement stmt;
-        if (statusString.equals("all")) {
+        if (statusString.equals("ALL")) {
             stmt = conn.prepareStatement("SELECT * FROM todos WHERE userId = ?");
             stmt.setInt(1, userId);
         } else {
-            if (!(statusString.equals("now") || statusString.equals("later"))) {
+            if (!(statusString.equals("NOW") || statusString.equals("LATER"))) {
                 System.out.println("Warning! Invalid statusString: " + statusString);
             }
             stmt = conn.prepareStatement("SELECT * FROM todos WHERE userId = ? AND status = ?");

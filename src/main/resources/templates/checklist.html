@@ -6,6 +6,7 @@
     <link rel="stylesheet" type="text/css" href="../static/css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="css/offcanvas.css">
     <link rel="stylesheet" type="text/css" href="../static/css/offcanvas.css">
+    <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Lobster+Two"/>
     <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
     <script src="js/checklist-ng-controller.js"></script>
     <title>Daily Checklist</title>
@@ -15,45 +16,48 @@
 {{! the default angularjs delimeters - https://mustache.github.io/mustache.5.html for more info }}
 {{=<% %>=}}
 
-User id: <%userId%> <br/>
-On Daily Checklist checklist page (งಠ_ಠ)ง
-<br/><br/>
+<div class="title">
+    Daily Checklist
+</div>
+<br/><br/><br/>
 
 <span ng-init="getMyToDos(<%userId%>)">
-    <div class="nice">
+    <div class="nice gray">
         <div class="row">
             <div ng-if="allToDos.length > 0">
                 <div class="col-lg-6">
-                    My To Dos (NOW): <br/>
+                    <h3>Now</h3>
                     <span ng-repeat="todo in allToDos">
                         <span ng-if="todo.isDone && todo.status === 'NOW'">
-                            <input type="checkbox" ng-click="toggleIsDone(todo)" checked/> {{todo.description}} (id: {{todo.id}}, isDone: {{todo.isDone}}, status: {{todo.status}}) <input type="button" ng-click="deleteToDo(todo)" value="delete"/> <br/>
+                            <input type="checkbox" ng-click="toggleIsDone(todo)" checked/> <span class="bolder">{{todo.description}}</span> <button type="button" ng-click="deleteToDo(todo)">Delete</button> <br/>
                         </span>
                         <span ng-if="todo.isDone == false && todo.status === 'NOW'">
-                            <input type="checkbox" ng-click="toggleIsDone(todo)"/> {{todo.description}} (id: {{todo.id}}, isDone: {{todo.isDone}}, status: {{todo.status}}) <input type="button" ng-click="deleteToDo(todo)" value="delete"/> <br/>
+                            <input type="checkbox" ng-click="toggleIsDone(todo)"/> <span class="bolder">{{todo.description}}</span> <button type="button" ng-click="deleteToDo(todo)">Delete</button> <br/>
                         </span>
                     </span>
                 </div>
 
                 <div class="col-lg-6">
-                    My To Dos (LATER): <br/>
+                    <h3>Later</h3>
                     <span ng-repeat="todo in allToDos">
                         <span ng-if="todo.isDone && todo.status === 'LATER'">
-                            <input type="checkbox" ng-click="toggleIsDone(todo)" checked/> {{todo.description}} (id: {{todo.id}}, isDone: {{todo.isDone}}, status: {{todo.status}}) <input type="button" ng-click="deleteToDo(todo)" value="delete"/> <br/>
+                            <input type="checkbox" ng-click="toggleIsDone(todo)" checked/> <span class="bolder">{{todo.description}}</span> <button type="button" ng-click="deleteToDo(todo)">Delete</button> <br/>
                         </span>
                         <span ng-if="todo.isDone == false && todo.status === 'LATER'">
-                            <input type="checkbox" ng-click="toggleIsDone(todo)"/> {{todo.description}} (id: {{todo.id}}, isDone: {{todo.isDone}}, status: {{todo.status}}) <input type="button" ng-click="deleteToDo(todo)" value="delete"/> <br/>
+                            <input type="checkbox" ng-click="toggleIsDone(todo)"/> <span class="bolder">{{todo.description}}</span> <button type="button" ng-click="deleteToDo(todo)">Delete</button> <br/>
                         </span>
                     </span>
                 </div>
             </div>
         </div>
 
-        <br/>
-        Create a To Do item! <br/>
+        <br/><br/>
+        <h4>New Checklist Item</h4>
         <input type="text" ng-model="toDoDescription" placeholder="Enter discription here"/> <br/>
-        <input type="text" ng-model="toDoStatusString" placeholder="Now or later?"/> <br/>
-        <button type="button" ng-click="createNewToDo(toDoDescription, toDoStatusString)">Add item</button>
+        <!--<input type="text" ng-model="toDoStatusString" placeholder="Now or later?"/> <br/>-->
+        <input type="Radio" name="status" ng-model="toDoStatus" value="NOW"> Now
+        <input type="Radio" name="status" ng-model="toDoStatus" value="LATER"> Later <br/>
+        <button type="button" ng-click="createNewToDo(toDoDescription, toDoStatus)">Create</button>
         <br/>
 
 
